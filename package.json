@@ -1,6 +1,6 @@
 {
   "name": "medapptech",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "MedAppTech shared library",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,10 @@
   },
   "author": "Vladimir Ignatov",
   "license": "ISC",
+  "repository":  {
+    "type": "git",
+    "url": "https://vi@bitbucket.org/vi/medapptech-react-lib.git"
+  },
   "devDependencies": {
     "babel-core": "^6.4.0",
     "babel-eslint": "^4.1.6",
