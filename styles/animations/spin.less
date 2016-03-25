@@ -1,0 +1,36 @@
+.vendor(@name, @value) {
+    -webkit-@{name}: @value;
+       -moz-@{name}: @value;
+        -ms-@{name}: @value;
+            @{name}: @value;
+}
+
+.transform(@t) {
+    .vendor(transform, @t);
+}
+
+.animation(@a) {
+    .vendor(animation, @a);
+}
+
+.spin {
+    .animation(spin 2s linear infinite);
+}
+
+@-webkit-keyframes spin {
+    0% {
+        .transform(rotate(0deg));
+    }
+    100% {
+        .transform(rotate(359deg));
+    }
+}
+
+@keyframes spin {
+    0% {
+        .transform(rotate(0deg));
+    }
+    100% {
+        .transform(rotate(359deg));
+    }
+}

@@ -1,0 +1,90 @@
+import React from "react"
+
+export default class PropertyGrid extends React.Component
+{
+    static propTypes = {
+        record    : React.PropTypes.object,
+        editable  : React.PropTypes.bool,
+        gridProps : React.PropTypes.object,
+        schema    : React.PropTypes.object
+    };
+
+    static defaultProps = {
+        gridProps: {},
+        schema: {
+            columns: []
+        }
+    };
+
+    renderCellValue(val, name, meta, record) {
+        if (this.props.editable) {
+            return (
+                meta.editor ? meta.editor(record) :
+                <input type="text"
+                    ref={ name }
+                    name={ name }
+                    defaultValue={ String(val || val === 0 ? val : "") }
+                    className="form-control"
+                    readOnly={ !!meta.primaryKey } />
+            )
+        }
+
+        if (val && typeof val == "object") {
+            return (
+                <PropertyGrid record={ val } gridProps={{
+                    className: "table table-bordered table-condensed small",
+                    style: {
+                        margin: 0
+                    }
+                }} />
+            )
+        }
+
+        return String(val)
+    }
+
+    renderHeadingValue(val) {
+        if (this.props.editable) {
+            return (
+                <label className="form-control-static">{ val }</label>
+            )
+        }
+
+        return String(val)
+    }
+
+    render() {
+        let record = this.props.record || {}
+        let rows = []
+        for (let x in record) {
+            let meta = this.props.schema.columns.find(c => c.name === x) || {}
+            if (this.props.editable && meta.editable === false) {
+                continue;
+            }
+            rows.push(
+                <tr key={ x }>
+                    <th className="text-right">
+                        { this.renderHeadingValue(meta.label || x) }
+                    </th>
+                    <td>{ this.renderCellValue(record[x], x, meta, record) }</td>
+                </tr>
+            )
+        }
+
+        if (!rows.length) {
+            rows = (
+                <tr>
+                    <td className="text-muted text-center">No Properties Found</td>
+                </tr>
+            )
+        }
+
+        return (
+            <table className="table table-striped" { ...this.props.gridProps }>
+                <tbody>
+                    { rows }
+                </tbody>
+            </table>
+        )
+    }
+}

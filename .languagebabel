@@ -1,0 +1,7 @@
+{
+  "createTranspiledCode":             false,
+  "disableWhenNoBabelrcFileInPath":   true,
+  "suppressSourcePathMessages":       false,
+  "suppressTranspileOnSaveMessages":  false,
+  "transpileOnSave":                  false
+}
