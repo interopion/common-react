@@ -29,6 +29,10 @@ export default class PropertyGrid extends React.Component
             )
         }
 
+        if (meta.render) {
+            return meta.render(record, meta);
+        }
+
         if (val && typeof val == "object") {
             return (
                 <PropertyGrid record={ val } gridProps={{
@@ -58,9 +62,18 @@ export default class PropertyGrid extends React.Component
         let rows = []
         for (let x in record) {
             let meta = this.props.schema.columns.find(c => c.name === x) || {}
+
+            // If the property is defined as hidden don't render the row
+            if (meta.hidden) {
+                continue;
+            }
+
+            // If the grid is in edit mode and this property is not editable
+            // then just skip the ntire row
             if (this.props.editable && meta.editable === false) {
                 continue;
             }
+
             rows.push(
                 <tr key={ x }>
                     <th className="text-right">
