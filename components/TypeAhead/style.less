@@ -1,0 +1,43 @@
+.type-ahead {
+    input {
+        padding-left   : 4ex !important;
+        background     : url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUxMiA1MTIiIGhlaWdodD0iNTEycHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEycHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwYXRoIGQ9Ik0zMzguMjc5LDMwNy40NzFsOTYuMTE1LDk2LjExNWwwLDBjMTEuNDAyLDExLjQwMywxMi4xMjUsMzEuMDAzLDAuMDc4LDQzLjA1MyAgICBjLTEyLjA1MSwxMi4wNTEtMzEuNzA3LDExLjY1OS00My43NTQtMC4zODlsLTk1LjYwOS05NS42MDhMMzM4LjI3OSwzMDcuNDcxIiBmaWxsPSIjNEE1MjVGIi8+PHBhdGggZD0iTTM1Ni4xOTksMzI1LjM5MWwtMjEuOTkyLDIxLjk5Mmw5OS41MTYsOTkuNTE2bDAuNDIsMC4wNjVsMC4wNjgtMC4wNjYgICAgYzExLjk4LTEyLjA1NCwxMS41NjYtMzEuOTI5LDAuMTg0LTQzLjMxMmwwLDBMMzU2LjE5OSwzMjUuMzkxIiBmaWxsPSIjNTQ1QjY3Ii8+PHBhdGggZD0iTTk1LjUzOCwxMDcuMjgyYy02Ny42ODgsNjcuNjg5LTY3LjY4OCwxNzcuNDMyLDAsMjQ1LjEyYzY3LjY4OCw2Ny42ODgsMTc3LjQzMSw2Ny42ODgsMjQ1LjEyMSwwICAgIGM2Ny42ODgtNjcuNjg4LDY3LjY4Ni0xNzcuNDMxLTAuMDAyLTI0NS4xMThDMjcyLjk2NywzOS41OTYsMTYzLjIyNSwzOS41OTYsOTUuNTM4LDEwNy4yODJ6IE0zMDYuNTUzLDMyMS4xMDQgICAgYy00OS40ODYsNDkuNDg2LTEyOS43MTgsNDkuNDg3LTE3OS4yMDcsMGMtNDkuNDg1LTQ5LjQ4Ni00OS40ODQtMTI5LjcxOSwwLjAwMi0xNzkuMjA1ICAgIGM0OS40ODUtNDkuNDg2LDEyOS43MTgtNDkuNDg3LDE3OS4yMDUtMC4wMDFDMzU2LjAzOSwxOTEuMzg1LDM1Ni4wMzksMjcxLjYxNywzMDYuNTUzLDMyMS4xMDR6IiBmaWxsPSIjNEE1MjVGIi8+PC9nPjwvc3ZnPg==") no-repeat scroll 1.3ex 50% #fff;
+        background-size: 18px;
+    }
+    .dropdown-menu {
+        min-width: 100%;
+
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        tr {
+            &:hover {
+                background: #EEE;
+            }
+            &.active {
+                color: #fff;
+                background-color: #337ab7;
+
+                .text-muted {
+                    color: rgba(255, 255, 255, 0.5);
+                }
+            }
+        }
+
+        td, th {
+            padding: 5px 12px;
+            cursor: default;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
+
+.form-group-lg .type-ahead + .form-control-feedback {
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
+}
