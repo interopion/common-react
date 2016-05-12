@@ -142,7 +142,7 @@ export default class Grid extends Component
      * search field in the header
      */
     renderHeader() {
-        if (this.props.search === false) {
+        if (this.props.search === false || (!this.props.search && !this.props.rows.length)) {
             return null
         }
 
