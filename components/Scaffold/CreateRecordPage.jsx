@@ -115,11 +115,28 @@ export default class CreateRecordPage extends React.Component
             return <Loader/>
         }
 
+        let error = this.state.error || null
+        if (error && typeof error == "object") {
+            try {
+                error = (
+                    <pre className="alert alert-danger">
+                    <button type="button"
+                        className="close"
+                        data-dismiss="alert"
+                        aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                        { JSON.stringify(error, null, 4) }
+                    </pre>
+                )
+            }
+            catch(ex) {
+                error = <p className="text-danger">Unknown error</p>
+            }
+        }
+
         return (
             <form onSubmit={ this.onSave }>
-                { this.state.error ? (
-                    <p className="text-danger">{this.state.error}</p>
-                ) : null }
+                { error || null }
                 { this.renderHeader() }
                 <PropertyGrid
                     ref="grid"
