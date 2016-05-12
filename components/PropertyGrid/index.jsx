@@ -3,7 +3,10 @@ import React from "react"
 export default class PropertyGrid extends React.Component
 {
     static propTypes = {
-        record    : React.PropTypes.object,
+        record    : React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.array
+        ]),
         editable  : React.PropTypes.bool,
         gridProps : React.PropTypes.object,
         schema    : React.PropTypes.object
