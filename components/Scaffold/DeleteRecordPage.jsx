@@ -9,7 +9,6 @@ export default class DeleteRecordPage extends React.Component
         mountPoint: React.PropTypes.string.isRequired,
         schema    : React.PropTypes.object.isRequired,
         params    : React.PropTypes.object,
-        onEdit    : React.PropTypes.func,
         onDelete  : React.PropTypes.func,
         buttons   : React.PropTypes.oneOfType([
             React.PropTypes.element,
@@ -89,23 +88,23 @@ export default class DeleteRecordPage extends React.Component
         )
     }
 
-    onEdit() {
-        if (typeof this.props.onEdit == "function") {
-            return this.props.onEdit()
-        }
-
-        this.context.router.push(
-            `/${this.props.mountPoint}/${this.state.record.id}/edit`
-        )
-    }
-
     onDelete() {
-        if (typeof this.props.onDelete == "function") {
-            return this.props.onDelete()
-        }
-
-        this.context.router.push(
-            `/${this.props.mountPoint}/${this.state.record.id}/delete`
+        this.setState({ loading: true, error: null })
+        this.props.schema.backend.destroy(
+            this.props.mountPoint,
+            this.props.params.id
+        ).then(
+            record => {
+                if (!this.ignoreLastFetch) {
+                    this.setState({ loading: false, record })
+                    this.context.router.push("/" + this.props.mountPoint)
+                }
+            },
+            error => {
+                if (!this.ignoreLastFetch) {
+                    this.setState({ loading: false, error })
+                }
+            }
         )
     }
 
