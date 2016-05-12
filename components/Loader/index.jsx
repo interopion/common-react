@@ -12,14 +12,14 @@ export default class Loader extends React.Component
 
     static defaultProps = {
         message: "Loading...",
-        icon   : "glyphicon glyphicon-refresh spin"
+        icon   : "glyphicon glyphicon-refresh"
     };
 
     render() {
         let { message, icon, ...props } = this.props
         return (
             <span { ...props }>
-                <i className={ icon } />
+                <i className={ icon + " spin"} />
                 &nbsp;{ message }
             </span>
         )
