@@ -142,6 +142,7 @@ class BrowseRecordsPage extends React.Component
                     if (typeof c.render == "function") {
                         meta.render = (o) => {
                             let rec = $.extend({}, o)
+                            rec["__" + meta.prop] = o[meta.prop]
                             rec[meta.prop] = renderSearchHighlight(o[meta.prop], search)
                             return c.render(rec)
                         }
