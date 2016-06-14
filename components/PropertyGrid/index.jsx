@@ -62,7 +62,8 @@ export default class PropertyGrid extends React.Component
 
     render() {
         let record = this.props.record || {}
-        let rows = []
+        let rows   = []
+        let noTH   = Array.isArray(record) && record.length === 1;
         for (let x in record) {
             let meta = this.props.schema.columns.find(c => c.name === x) || {}
 
@@ -79,9 +80,9 @@ export default class PropertyGrid extends React.Component
 
             rows.push(
                 <tr key={ x }>
-                    <th className="text-right">
+                    { noTH ? null : <th className="text-right">
                         { this.renderHeadingValue(meta.label || x) }
-                    </th>
+                    </th> }
                     <td>{ this.renderCellValue(record[x], x, meta, record) }</td>
                 </tr>
             )
