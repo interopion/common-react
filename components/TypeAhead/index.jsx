@@ -1,5 +1,4 @@
 import React  from "react"
-import Loader from "../Loader"
 import "./style.less"
 
 const KEYCODE_UP     = 38;
@@ -15,14 +14,16 @@ export default class TypeAhead extends React.Component
         onSubmit   : React.PropTypes.func,
         hints      : React.PropTypes.array,
         placeholder: React.PropTypes.string,
-        inputValue : React.PropTypes.string
+        inputValue : React.PropTypes.string,
+        inputProps : React.PropTypes.object
     };
 
     static defaultProps = {
         onSearch: () => false,
         onSubmit: () => false,
         hints: [],
-        hintIndex: 0
+        hintIndex: 0,
+        inputProps: {}
     };
 
     constructor(...args) {
@@ -44,7 +45,8 @@ export default class TypeAhead extends React.Component
             return this.setState({
                 inputValue: e.target.value,
                 hintIndex : -1,
-                loading   : false
+                loading   : false,
+                isOpen    : false
             })
         }
 
@@ -57,15 +59,16 @@ export default class TypeAhead extends React.Component
         this.setState({
             inputValue: e.target.value,
             hintIndex : 0,
-            loading   : true
+            loading   : true,
+            isOpen    : true
+        }, () => {
+            if (this._searchDelay) {
+                clearTimeout(this._searchDelay)
+            }
+            this._searchDelay = setTimeout(() => {
+                this.props.onSearch(e.target.value)
+            }, 350)
         })
-
-        if (this._searchDelay) {
-            clearTimeout(this._searchDelay)
-        }
-        this._searchDelay = setTimeout(() => {
-            this.props.onSearch(e.target.value)
-        }, 50)
     }
 
     selectHintIndex(index, event) {
@@ -78,7 +81,8 @@ export default class TypeAhead extends React.Component
             // this.props.onSubmit(hint.data)
             this.setState({
                 inputValue: hint.value,
-                hintIndex : -1
+                hintIndex : index,
+                isOpen    : false
             }, () => {
                 this.props.onSubmit(hint.raw)
             })
@@ -87,7 +91,7 @@ export default class TypeAhead extends React.Component
 
     onBlur() {
         this.setState({
-            hintIndex: -1
+            isOpen: false
         })
     }
 
@@ -95,14 +99,18 @@ export default class TypeAhead extends React.Component
         switch(e.keyCode) {
         case KEYCODE_DOWN:
             e.preventDefault()
-            this.setState({
-                hintIndex: Math.min(this.props.hints.length - 1, this.state.hintIndex + 1)
-            })
+            this.setState(
+                this.state.isOpen ?
+                { hintIndex: Math.min(this.props.hints.length - 1, this.state.hintIndex + 1) } :
+                { isOpen: true }
+            )
             break;
         case KEYCODE_UP:
             e.preventDefault()
+            let newIndex = Math.max(-1, this.state.hintIndex - 1)
             this.setState({
-                hintIndex: Math.max(-1, this.state.hintIndex - 1)
+                hintIndex: Math.max(newIndex, 0),
+                isOpen: newIndex > -1
             })
             break;
         case KEYCODE_ENTER:
@@ -114,17 +122,30 @@ export default class TypeAhead extends React.Component
         case KEYCODE_ESCAPE:
             e.preventDefault()
             this.setState({
-                hintIndex: -1
+                isOpen: false
             })
             break;
         }
+    }
+
+    toggleMenu(event) {
+        if (event) {
+            event.preventDefault()
+            this.refs.input.focus()
+        }
+
+        let newState = { isOpen: !this.state.isOpen }
+        if (newState.isOpen && this.state.hintIndex == -1 && this.props.hints.length) {
+            newState.hintIndex = 0
+        }
+        this.setState(newState)
     }
 
     renderHintsMenuRow(data) {
         let cells = []
         for (let x in data) {
             cells.push(
-                <td key={x} style={{ width: cells.length ? 140 : "auto" }}>
+                <td key={x}>
                     <span className="text-muted">{x}: </span>
                     { data[x] }
                 </td>
@@ -134,7 +155,8 @@ export default class TypeAhead extends React.Component
     }
 
     renderHintsMenu() {
-        if (!this.props.hints.length || this.state.hintIndex == -1 || !this.state.inputValue) {
+
+        if (!this.state.isOpen) {
             return null
         }
 
@@ -142,15 +164,29 @@ export default class TypeAhead extends React.Component
             return (
                 <div role="menu" className="dropdown-menu">
                     <div className="text-center text-muted">
-                        <Loader/>
+                        Loading...
                     </div>
                 </div>
             )
         }
 
+        if (!this.props.hints.length/* || !this.state.inputValue*/) {
+            return (
+                <div role="menu" className="dropdown-menu">
+                    <div className="text-center text-muted">
+                        No Entries
+                    </div>
+                </div>
+            )
+        }
+
+        if (this.state.hintIndex == -1) {
+            return null
+        }
+
         return (
             <div role="menu" className="dropdown-menu">
-                <table>
+                <table style={{ width: "100%" }}>
                     <tbody>
                         {
                             this.props.hints.map((h, i) => (
@@ -169,10 +205,11 @@ export default class TypeAhead extends React.Component
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            loading   : false,
-            inputValue: nextProps.inputValue || ""
-        })
+        let nextState = { loading: false }
+        if (!this.state.loading) {
+            nextState.inputValue = nextProps.inputValue || ""
+        }
+        this.setState(nextState)
     }
 
     render() {
@@ -186,9 +223,30 @@ export default class TypeAhead extends React.Component
             onBlur     : this.onBlur
         }
 
+        let isOpen = !!this.state.isOpen
+
         return (
-            <div className="dropdown open type-ahead">
-                <input { ...inputProps } ref="input" />
+            <div className={ "dropdown open type-ahead" + (this.state.loading ? " loading" : "") }>
+                <input { ...inputProps } { ...this.props.inputProps } ref="input" />
+                <button
+                    tabIndex="-1"
+                    type="button"
+                    className={ "btn btn-default" + ( isOpen ? " active" : "") }
+                    onMouseDown={ ::this.toggleMenu }
+                    style={{
+                        position    : "absolute",
+                        top         : 1,
+                        right       : 1,
+                        borderColor : "rgba(0, 0, 0, 0.1)",
+                        borderWidth : "0 0 0 1px",
+                        outline     : 0,
+                        borderRadius: "0 3px 3px 0"
+                    }}
+                ><span className="caret" style={
+                    isOpen ? {
+                        transform: "translateY(-2px) rotate(-180deg)"
+                    } : null
+                }/></button>
                 { this.renderHintsMenu() }
             </div>
         )
