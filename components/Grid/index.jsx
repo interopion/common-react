@@ -4,6 +4,7 @@ import Paginator       from "../Paginator"
 import SimplePaginator from "../SimplePaginator"
 import Loader          from "../Loader/index.jsx"
 import                      "./style.less"
+import SearchInput     from "../SearchInput"
 
 const {
     PropTypes,
@@ -126,10 +127,10 @@ export default class Grid extends Component
         if (this._searchDelay) {
             clearTimeout(this._searchDelay)
         }
-        this.setState({ search: this.refs.search.value })
+        this.setState({ search: this.refs.search.refs.input.value })
         this._searchDelay = setTimeout(() => {
             this.fetch({
-                search: this.refs.search.value,
+                search: this.refs.search.refs.input.value,
                 offset: 0
             })
         }, this.props.searchDelay)
@@ -149,13 +150,14 @@ export default class Grid extends Component
         return (
             <div className="row" style={{ marginBottom: 20 }}>
                 <div className="text-center col-sm-6 col-sm-offset-3  col-md-4 col-md-offset-4">
-                    <input
+                    {/*<input
                         type="search"
                         className="form-control"
                         placeholder="Search"
                         value={ this.state.search }
                         ref="search"
-                        onChange={ this.search }/>
+                        onChange={ this.search }/>*/}
+                    <SearchInput ref="search" value={ this.state.search } onChange={ this.search }/>
                 </div>
             </div>
         )
@@ -239,6 +241,11 @@ export default class Grid extends Component
 
         // Normal state --------------------------------------------------------
         return this.props.cols.map((col, i) => {
+
+            if (col.headerColSpan === 0) {
+                return null;
+            }
+
             let props = {
                 key : "header-cell-" + i,
                 style: {}
@@ -343,6 +350,11 @@ export default class Grid extends Component
             return (
                 <tr { ...rowProps }>
                     {this.props.cols.map((col, ci) => {
+
+                        if (col.cellColSpan === 0) {
+                            return null;
+                        }
+
                         let props = {
                             key : "body-cell-" + ci
                         }
@@ -360,6 +372,10 @@ export default class Grid extends Component
                                 props.className,
                                 col.cellClass
                             ].join(" ")
+                        }
+
+                        if (col.cellColSpan) {
+                            props.colSpan = col.cellColSpan;
                         }
 
                         return (

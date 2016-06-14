@@ -8,7 +8,7 @@
   },
   "author": "Vladimir Ignatov",
   "license": "ISC",
-  "repository":  {
+  "repository": {
     "type": "git",
     "url": "https://github.com/medapptech/common-react.git"
   },
@@ -44,5 +44,8 @@
     "ignore": [
       "node_modules"
     ]
+  },
+  "dependencies": {
+    "react-addons-test-utils": "^0.14.6"
   }
 }
