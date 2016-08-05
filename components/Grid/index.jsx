@@ -40,6 +40,7 @@ export default class Grid extends Component
         getRowProps    : PropTypes.func,
         rowStyle       : PropTypes.object,
         tableStyle     : PropTypes.object,
+        wrapperStyle   : PropTypes.object,
         emptyMessage   : PropTypes.oneOfType([ PropTypes.string, PropTypes.element ]),
         search         : PropTypes.oneOfType([ PropTypes.bool, PropTypes.string ])
     };
@@ -380,7 +381,7 @@ export default class Grid extends Component
 
                         return (
                             <td {...props}>
-                                {col.render ? col.render(row) : row[col.prop] }
+                                {col.render ? col.render(row, this) : row[col.prop] }
                             </td>
                         )
                     })}
@@ -405,7 +406,7 @@ export default class Grid extends Component
         }
         let tableStyle = $.extend({}, this.props.tableStyle, { minHeight: this.lastHeight });
         return (
-            <div className="grid">
+            <div className="grid" style={ this.props.wrapperStyle || null }>
                 { this.renderHeader() }
                 <table className={tableClass} ref="table" style={ tableStyle }>
                     <thead><tr>{ this.renderTHead() }</tr></thead>
