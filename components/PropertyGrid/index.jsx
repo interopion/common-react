@@ -50,43 +50,54 @@ export default class PropertyGrid extends React.Component
         return String(val)
     }
 
-    renderHeadingValue(val) {
+    renderHeadingValue(val, record) {
+        if (typeof val == "function") {
+            return val(record);
+        }
+
         if (this.props.editable) {
             return (
                 <label className="form-control-static">{ val }</label>
             )
         }
 
-        return String(val)
+        return val
     }
 
     render() {
         let record = this.props.record || {}
         let rows   = []
         let noTH   = Array.isArray(record) && record.length === 1;
-        for (let x in record) {
+        let props  = Object.keys(record).sort((a, b) => {
+            return this.props.schema.columns.findIndex(c => c.name === a) -
+                   this.props.schema.columns.findIndex(c => c.name === b)
+        })
+        props.forEach(x => {
+        // for (let x in record) {
             let meta = this.props.schema.columns.find(c => c.name === x) || {}
 
             // If the property is defined as hidden don't render the row
             if (meta.hidden) {
-                continue;
+                // continue;
+                return;
             }
 
             // If the grid is in edit mode and this property is not editable
             // then just skip the ntire row
             if (this.props.editable && meta.editable === false) {
-                continue;
+                // continue;
+                return;
             }
 
             rows.push(
                 <tr key={ x }>
                     { noTH ? null : <th className="text-right">
-                        { this.renderHeadingValue(meta.label || x) }
+                        { this.renderHeadingValue(meta.label || x, record) }
                     </th> }
                     <td>{ this.renderCellValue(record[x], x, meta, record) }</td>
                 </tr>
             )
-        }
+        })
 
         if (!rows.length) {
             rows = (
