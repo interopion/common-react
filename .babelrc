@@ -1,0 +1,13 @@
+{
+    "plugins": [
+        "transform-decorators-legacy"
+    ],
+    "presets": [
+        "es2015",
+        "stage-0",
+        "react"
+    ],
+    "ignore": [
+        "node_modules"
+    ]
+}
