@@ -1,6 +1,6 @@
 {
   "name": "medapptech",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "MedAppTech shared library",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "type": "git",
     "url": "https://github.com/medapptech/common-react.git"
   },
-  "devDependencies": {
+  "dependencies": {
     "babel-cli": "^6.22.2",
     "babel-core": "^6.4.0",
     "babel-eslint": "^4.1.6",
@@ -33,7 +33,6 @@
     "react-addons-test-utils": "^0.14.6",
     "react-dom": "^0.14.6"
   },
-  "dependencies": {},
   "pre-commit": [
     "lint",
     "validate",
