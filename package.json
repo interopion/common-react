@@ -1,6 +1,6 @@
 {
   "name": "medapptech",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "MedAppTech shared library",
   "main": "index.js",
   "scripts": {
@@ -29,13 +29,18 @@
     "git-validate": "^2.2.2",
     "jquery": "^2.2.0",
     "less": "^2.5.3",
-    "react": "^0.14.6",
     "react-addons-test-utils": "^0.14.6",
     "react-dom": "^0.14.6"
+  },
+  "peerDependencies": {
+    "react": ">= 0.14.6"
   },
   "pre-commit": [
     "lint",
     "validate",
     "test"
-  ]
+  ],
+  "devDependencies": {
+    "react": "^0.14.6"
+  }
 }
