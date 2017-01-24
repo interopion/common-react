@@ -2,7 +2,7 @@ import React           from "react"
 import $               from "jquery"
 import Paginator       from "../Paginator"
 import SimplePaginator from "../SimplePaginator"
-import Loader          from "../Loader/index.jsx"
+import Loader          from "../Loader/"
 import                      "./style.less"
 import SearchInput     from "../SearchInput"
 
