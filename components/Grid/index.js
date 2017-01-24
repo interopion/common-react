@@ -25,9 +25,9 @@ var _SimplePaginator = require("../SimplePaginator");
 
 var _SimplePaginator2 = _interopRequireDefault(_SimplePaginator);
 
-var _index = require("../Loader/index.jsx");
+var _Loader = require("../Loader/");
 
-var _index2 = _interopRequireDefault(_index);
+var _Loader2 = _interopRequireDefault(_Loader);
 
 require("./style.less");
 
@@ -354,7 +354,7 @@ var Grid = (_temp = _class = function (_Component) {
                     _react2.default.createElement(
                         "td",
                         { className: "text-center", style: { verticalAlign: "middle" } },
-                        _react2.default.createElement(_index2.default, { className: "text-info", style: { margin: 0 } })
+                        _react2.default.createElement(_Loader2.default, { className: "text-info", style: { margin: 0 } })
                     )
                 )];
 
