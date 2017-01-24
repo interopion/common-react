@@ -1,6 +1,6 @@
 {
   "name": "medapptech",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "MedAppTech shared library",
   "main": "index.js",
   "scripts": {
@@ -28,9 +28,7 @@
     "eslint-plugin-react": "^3.15.0",
     "git-validate": "^2.2.2",
     "jquery": "^2.2.0",
-    "less": "^2.5.3",
-    "react-addons-test-utils": "^0.14.6",
-    "react-dom": "^0.14.6"
+    "less": "^2.5.3"
   },
   "peerDependencies": {
     "react": ">= 0.14.6"
@@ -41,6 +39,8 @@
     "test"
   ],
   "devDependencies": {
-    "react": "^0.14.6"
+    "react": "^0.14.6",
+    "react-addons-test-utils": "^0.14.6",
+    "react-dom": "^0.14.6"
   }
 }
