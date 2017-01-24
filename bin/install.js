@@ -4,4 +4,4 @@ var Validate = require("git-validate");
 
 Validate.installScript("lint", "eslint .");
 Validate.installScript("validate", "npm ls");
-Validate.configureHook("pre-commit", ["lint", "validate", "test", "build"]);
+Validate.configureHook("pre-commit", ["lint", "validate", "test"]);
